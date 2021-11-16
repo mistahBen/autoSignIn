@@ -10,8 +10,11 @@ To get selenium, run the following:
 python3 -m pip install selenium==
 
 Refer to the readme for further details.
+<<<<<<< HEAD
 
 test change
+=======
+>>>>>>> 9fff63c4b79a108bcaf3c9b39b20b60eb38ba77d
 """
 import os
 import csv
