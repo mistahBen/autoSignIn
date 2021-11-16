@@ -1,4 +1,4 @@
 #
 # domain is the domain to append to usernames
 #
-domain = "@google.com"
+domain = "@district65.net"
