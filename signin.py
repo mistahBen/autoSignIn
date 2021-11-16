@@ -26,7 +26,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-
+from config.txt import domain
 
 # set Chromedriver in local directory
 directory = os.path.realpath(os.path.join(
@@ -43,7 +43,7 @@ SITE = "https://accounts.google.com/"
 driver.get(SITE)
 
 
-domain = "@district65.net"  # edit this for your specific needs
+
 
 # open student csv
 __location__ = os.path.realpath(os.path.join(
