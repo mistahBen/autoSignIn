@@ -14,7 +14,6 @@ Refer to the readme for further details.
 
 test change
 =======
->>>>>>> 9fff63c4b79a108bcaf3c9b39b20b60eb38ba77d
 """
 import os
 import csv
@@ -29,7 +28,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 
 
-#set Chromedriver in local directory
+# set Chromedriver in local directory
 directory = os.path.realpath(os.path.join(
     os.getcwd(), os.path.dirname(__file__)))
 s = Service(os.path.join(directory, 'chromedriver'))
@@ -43,6 +42,9 @@ print(executor_url, session_id)
 SITE = "https://accounts.google.com/"
 driver.get(SITE)
 
+
+domain = "@district65.net"  # edit this for your specific needs
+
 # open student csv
 __location__ = os.path.realpath(os.path.join(
     os.getcwd(), os.path.dirname(__file__)))
@@ -54,9 +56,8 @@ with open(LIST, newline='') as f:
         # more humanlike interaction with random wait times for each login
         rand = random.randint(3, 10)
         studID, PIN = (row[0], row[1])
-        emailaddr = {studID, "@district65.net"}
+        emailaddr = {studID, domain}
         user = str(''.join(emailaddr))
-
         driver.implicitly_wait(4)
 
         # fill in username and hit the next button
