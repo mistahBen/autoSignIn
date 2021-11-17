@@ -2,3 +2,5 @@ log*
 laststudent*
 students.csv
 readme.txt
+chromedriver
+config.py
