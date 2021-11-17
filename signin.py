@@ -1,3 +1,25 @@
+import os
+import csv
+import re
+import time
+import random
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from config import SITE, domain
+
+
+def main():
+    pass
+
+
+if __name__ == '__main__':
+    main()
+
+
 """
 Student batch sign-in
 
@@ -15,18 +37,6 @@ Refer to the readme for further details.
 test change
 =======
 """
-import os
-import csv
-import re
-import time
-import random
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from config.txt import domain
 
 # set Chromedriver in local directory
 directory = os.path.realpath(os.path.join(
@@ -39,10 +49,8 @@ session_id = driver.session_id
 
 print(executor_url, session_id)
 
-SITE = "https://accounts.google.com/"
+
 driver.get(SITE)
-
-
 
 
 # open student csv
@@ -56,13 +64,13 @@ with open(LIST, newline='') as f:
         # more humanlike interaction with random wait times for each login
         rand = random.randint(3, 10)
         studID, PIN = (row[0], row[1])
-        emailaddr = {studID, domain}
-        user = str(''.join(emailaddr))
+        # emailaddr = {studID, domain}
+        user = str(''.join({studID, domain}))
         driver.implicitly_wait(4)
 
         # fill in username and hit the next button
         # this checks if at the 'choose a user' option
-        if bool(re.search('signinchooser', driver.current_url)):
+        if re.search('signinchooser', driver.current_url):
             driver.find_element_by_xpath(
                 "//*[@id='view_container']/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div/ul/li[2]/div/div/div[2]").click()
             driver.implicitly_wait(1)
