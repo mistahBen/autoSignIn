@@ -34,8 +34,6 @@ python3 -m pip install selenium==
 Refer to the readme for further details.
 <<<<<<< HEAD
 
-test change
-=======
 """
 
 # set Chromedriver in local directory
@@ -98,16 +96,15 @@ with open(LIST, newline='') as f:
 
         time.sleep(rand)
         verify = driver.find_element(By.TAG_NAME, 'h1').get_attribute('span')
-        span = driver.find_element(
-            By.XPATH, "//*[@id='view_container']/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div")
-        if bool(span):
+        if driver.find_element(
+                By.XPATH, "//*[@id='view_container']/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div"):
             # if presented with "confirm it's you" message, click yes
             driver.find_element(
-                By.XPATH, "//*[@id='view_container']/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span").click()
+                    By.XPATH, "//*[@id='view_container']/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span").click()
 
         time.sleep(3)
         urlcheck = driver.current_url
-        if bool(re.search('gaplustos', urlcheck)):
+        if re.search('gaplustos', urlcheck):
             # print("speedbump detected") #debugging
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.TAG_NAME, 'button')))
@@ -116,9 +113,8 @@ with open(LIST, newline='') as f:
             driver.implicitly_wait(4)
             time.sleep(rand)
         msg = "Last student submitted: "
-        laststudent = {msg, studID}
         # report last student successfully logged in to stdout
-        print(str(''.join(laststudent)))
+        print(str(''.join({msg, studID})))
         time.sleep(3)
 
         # logout of account
