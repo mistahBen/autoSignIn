@@ -1,4 +1,0 @@
-#
-# domain is the domain to append to usernames
-#
-domain = "@district65.net"
