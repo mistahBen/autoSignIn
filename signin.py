@@ -1,16 +1,17 @@
-import os
-import csv
-import re
-import time
-import random
+from config import *
+from elements import *
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from config import SITE, domain
-from elements.py import *
+from selenium.webdriver.support.ui import WebDriverWait
+import csv
+import os
+from os.path import exists
+import random
+import re
+import time
 
 
 def main():
@@ -51,11 +52,18 @@ print(executor_url, session_id)
 
 driver.get(SITE)
 
-
 # open student csv
 __location__ = os.path.realpath(os.path.join(
     os.getcwd(), os.path.dirname(__file__)))
 LIST = os.path.join(__location__, "students.csv")
+if exists(LIST) is False:  # allow manual input
+    print("students.csv file not found. You may manually input a student username and password or quit this script(ctrl+D), add a students.csv file and run it again.\n")
+    s = input("Student username: ")
+    p = input("Password: ")
+    with open(LIST, 'w') as f:
+        f.write("Student_Number,Lunch_ID\n"+s+","+p)
+
+
 with open(LIST, newline='') as f:
     reader = csv.reader(f)
     next(reader, None)
@@ -64,7 +72,7 @@ with open(LIST, newline='') as f:
         rand = random.randint(3, 10)
         studID, PIN = (row[0], row[1])
         # emailaddr = {studID, domain}
-        user = str(''.join({studID, domain}))
+        user = str('@'.join([studID, domain]))
         driver.implicitly_wait(4)
 
         # fill in username and hit the next button
