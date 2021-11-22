@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from config import SITE, domain
+from elements.py import *
 
 
 def main():
@@ -70,7 +71,7 @@ with open(LIST, newline='') as f:
         # this checks if at the 'choose a user' option
         if re.search('signinchooser', driver.current_url):
             driver.find_element_by_xpath(
-                "//*[@id='view_container']/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div/ul/li[2]/div/div/div[2]").click()
+                gEmail).click()
             driver.implicitly_wait(1)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, "input[type='email']")))
@@ -97,10 +98,10 @@ with open(LIST, newline='') as f:
         time.sleep(rand)
         verify = driver.find_element(By.TAG_NAME, 'h1').get_attribute('span')
         if driver.find_element(
-                By.XPATH, "//*[@id='view_container']/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div"):
+                By.XPATH, gConfirm):
             # if presented with "confirm it's you" message, click yes
             driver.find_element(
-                    By.XPATH, "//*[@id='view_container']/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/span").click()
+                    By.XPATH, gConfirmButton).click()
 
         time.sleep(3)
         urlcheck = driver.current_url
@@ -114,12 +115,12 @@ with open(LIST, newline='') as f:
             time.sleep(rand)
         msg = "Last student submitted: "
         # report last student successfully logged in to stdout
-        print(str(''.join({msg, studID})))
+        print(str(''.join([msg, studID])))
         time.sleep(3)
 
         # logout of account
         accounticon = driver.find_element(
-            By.XPATH, "//*[@id='gb']/div[2]/div[3]/div[1]/div[2]/div/a")
+            By.XPATH, accountButton)
         accounticon.click()
         driver.implicitly_wait(4)
         logout = driver.find_element(By.XPATH, "//*[@id='gb_71']")
