@@ -4,7 +4,7 @@
 
 Make sure you are running this in python3 and have selenium version 4.0.0 library. You will also need a csv of the userIDs and passwords you wish to use. You may append your list to the template csv (just rename it to students.csv).
 
-    Edit the domain to the appropriate one for your accounts. (i.e. @school.edu)
+    Edit the domain to the appropriate one for your accounts. (i.e. "school.edu")
 
 It is strongly recommended to run "firstrun.py" script so you can jump through the MacOS access permissions for the Chrome webdriver. This has not been tested on Windows.
 

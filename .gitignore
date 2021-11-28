@@ -3,3 +3,4 @@ laststudent*
 students.csv
 readme.txt
 chromedriver
+__pycache__
