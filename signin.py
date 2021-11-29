@@ -1,4 +1,4 @@
-from config import *
+g_confrom config import *
 from elements import *
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -79,7 +79,7 @@ with open(LIST, newline='') as f:
         # this checks if at the 'choose a user' option
         if re.search('signinchooser', driver.current_url):
             driver.find_element_by_xpath(
-                gEmail).click()
+                g_email).click()
             driver.implicitly_wait(1)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, "input[type='email']")))
@@ -106,10 +106,10 @@ with open(LIST, newline='') as f:
         time.sleep(rand)
         verify = driver.find_element(By.TAG_NAME, 'h1').get_attribute('span')
         if driver.find_element(
-                By.XPATH, gConfirm):
+                By.XPATH, g_confirm):
             # if presented with "confirm it's you" message, click yes
             driver.find_element(
-                    By.XPATH, gConfirmButton).click()
+                    By.XPATH, g_confirm_button).click()
 
         time.sleep(3)
         urlcheck = driver.current_url
@@ -128,7 +128,7 @@ with open(LIST, newline='') as f:
 
         # logout of account
         accounticon = driver.find_element(
-            By.XPATH, accountButton)
+            By.XPATH, account_button)
         accounticon.click()
         driver.implicitly_wait(4)
         logout = driver.find_element(By.XPATH, "//*[@id='gb_71']")
