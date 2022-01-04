@@ -6,3 +6,4 @@ chromedriver
 __pycache__
 all_students2021-12.csv
 *.pyc
+.DS_Store
