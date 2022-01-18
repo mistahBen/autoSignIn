@@ -4,3 +4,4 @@ students.csv
 readme.txt
 chromedriver
 config.py
+*.pyc
