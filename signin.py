@@ -106,7 +106,8 @@ def sign_in(studID, PIN, driver):
     driver.implicitly_wait(4)
     driver.get("chrome://settings/clearBrowserData")
     driver.implicitly_wait(4)
-    driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.TAB * 7, Keys.RETURN)
+    driver.find_element(By.TAG_NAME, 'body').send_keys(
+        Keys.TAB * 7, Keys.RETURN)
     driver.implicitly_wait(4)
     driver.get(config.SITE)
 
@@ -124,7 +125,11 @@ def main():
         next(reader, None)
         for row in reader:
             studID, PIN = (row[0], row[1])
-            sign_in(studID, PIN, driver)
+            if PIN is str("0"):
+                print(studID+" has no corresponding Lunch ID. Skipping...")
+                pass
+            else:
+                sign_in(studID, PIN, driver)
 
         driver.close()
 
