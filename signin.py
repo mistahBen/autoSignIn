@@ -101,18 +101,12 @@ def sign_in(studID, PIN, driver):
     print(str(''.join([msg, studID])))
     time.sleep(2)
 
-    # logout of account
-    accounticon = driver.find_element(By.XPATH, elements.account_button)
-    accounticon.click()
+    # log out of account, clear cache
+    driver.get("https://accounts.google.com/logout")
     driver.implicitly_wait(4)
-    logout = driver.find_element(By.XPATH, "//*[@id='gb_71']")
-    logout.click()
-    driver.implicitly_wait(3)
-    # clear history so we can log in again
     driver.get("chrome://settings/clearBrowserData")
     driver.implicitly_wait(4)
-    clearcache = driver.find_element(
-        By.TAG_NAME, 'body').send_keys(Keys.TAB * 7, Keys.RETURN)
+    driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.TAB * 7, Keys.RETURN)
     driver.implicitly_wait(4)
     driver.get(config.SITE)
 
