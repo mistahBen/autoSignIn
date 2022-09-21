@@ -2,10 +2,12 @@ log*
 laststudent*
 students.csv
 readme.txt
-chromedriver
+chromedriver*
 __pycache__
 all_students2021-12.csv
 *.pyc
+Chromium.app
 .DS_Store
 *.pyc
 *.pyc
+allstudents.csv

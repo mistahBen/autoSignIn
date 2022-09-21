@@ -7,10 +7,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from lib import config, elements
 
+import pdb
 
 """
 Student batch sign-in
@@ -21,7 +23,7 @@ Requires Google Chrome driver, selenium, and a list of student IDs and passwords
 Some of the page actions occur very rapidly which creates some brief flickering. If this is an issue, you can adjust the wait times and sleep times in this script for longer intervals. You can also do other tasks or have other windows over the browser window.
 
 To get selenium, run the following:
-python3 -m pip install selenium==
+python3 -m pip install selenium
 
 Refer to the readme for further details.
 
@@ -39,11 +41,16 @@ if exists(LIST) is False:  # allow manual input
 
 
 def driver_info():
-    """Chromedriver should be in local directory"""
-    directory = os.path.realpath(os.path.join(
-        os.getcwd(), os.path.dirname(__file__)))
-    s = Service(os.path.join(directory, 'chromedriver'))
-    driver = webdriver.Chrome(service=s)
+    directory = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+    s = Service(f"{directory}/chromedriver103") # 103 for chromium, 105 for current chrome install
+    chromeOptions = Options()
+    chromeOptions.add_argument("--allow-profiles-outside-user-dir")
+    chromeOptions.binary_location=f"{directory}/Chromium.app/Contents/MacOS/Chromium"
+    # chromeOptions.add_argument("--user-data-dir=/Users/alexanderb/Documents/GitHub/studentquicklookup/chromeProfile")
+    chromeOptions.add_argument("--incognito")
+
+    driver = webdriver.Chrome(service=s, options=chromeOptions)
     return driver
 
 
@@ -82,20 +89,23 @@ def sign_in(studID, PIN, driver):
     cancelbutton = driver.find_element(By.ID, "idBtn_Back")
     cancelbutton.click()
     time.sleep(2)
-    verify = driver.find_element(By.TAG_NAME, 'h1').get_attribute('span')
-    if driver.find_element(By.XPATH, elements.g_confirm):
-        # if presented with "confirm it's you" message, click yes
-        driver.find_element(By.XPATH, elements.g_confirm_button).click()
+    
+    # """begin Debug"""
+    # pdb.set_trace()
+   
+#    #  verify = driver.find_element(By.TAG_NAME, 'h1').get_attribute('span')
+#     if driver.find_element(By.XPATH, elements.g_confirm):
+#         # if presented with "confirm it's you" message, click yes
+#         driver.find_element(By.XPATH, elements.g_confirm_button).click()
 
     time.sleep(3)
     urlcheck = driver.current_url
     if re.search('gaplustos', urlcheck):
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.TAG_NAME, 'button')))
-        accept = driver.find_element(By.TAG_NAME, 'button')
+        WebDriverWait(driver, 4).until(
+            EC.presence_of_element_located((By.ID, 'confirm')))
+        accept = driver.find_element(By.ID, 'confirm')
         accept.click()
-        driver.implicitly_wait(4)
-        time.sleep(2)
+    
     msg = "Last student submitted: "
     # report last student successfully logged in to stdout
     print(str(''.join([msg, studID])))
