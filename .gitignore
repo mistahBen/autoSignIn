@@ -12,3 +12,5 @@ Chromium.app
 *.pyc
 allstudents.csv
 auto-login.txt
+z_allstudents.csv
+fane.csv
