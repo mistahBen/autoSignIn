@@ -11,3 +11,4 @@ Chromium.app
 *.pyc
 *.pyc
 allstudents.csv
+auto-login.txt
