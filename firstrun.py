@@ -1,21 +1,27 @@
+"""
+A short script to run to get through all of the various alerts and security prompts to use the webdriver.
+"""
+from os.path import exists
 import os
-import csv
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import FirefoxOptions
+from helium import *
+from time import sleep
 
-__location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
-PATH = os.path.join(__location__, 'chromedriver')
+print("Initiating webdriver and checking for 'allstudents.csv' file... Once the browser launches, it will close automatically after 10 seconds.")
 
-driver = webdriver.Chrome(PATH)
-driver.implicitly_wait(0.5)
-SITE = "https://accounts.google.com"
-driver.get(SITE)
-driver.implicitly_wait(4)
-textcheck = driver.find_element(By.CSS_SELECTOR, "input[type='email']")
-textcheck.send_keys("Input test. This window will close in 7 seconds.")
-driver.implicitly_wait(7)
-driver.close()
+
+__location__ = os.path.realpath(os.path.join(
+    os.getcwd(), os.path.dirname(__file__)))
+LIST = os.path.join(__location__, "allstudents.csv")
+if exists(LIST) is False: 
+    print("CAUTION: 'allstudents.csv' file not found. Be sure to create one or put it in this directory before running signin.py.\n")
+    
+driver = get_driver()
+options = FirefoxOptions()
+options.add_argument("-private")
+options.add_argument("--width=800")
+options.add_argument("--height=600")
+
+start_firefox('bing.com', options=options)
+sleep(10)
+kill_browser()

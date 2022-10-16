@@ -6,7 +6,7 @@ import csv
 from selenium.webdriver import FirefoxOptions
 from helium import *
 from selenium.common.exceptions import NoSuchElementException as exElem
-from lib import config, elements
+from env import SITE, domain
 
 """
 Student batch sign-in
@@ -46,7 +46,10 @@ def google(user):
     go_to('accounts.google.com')
     write(user + "@district65.net")
     press(RETURN)
-    
+    if Text("locked").exists:
+        logging.ERROR(f'user {user} reported as locked')
+    if Text("Couldn't find").exists:
+        logging.ERROR(f'user {user} NOT FOUND in Google')
     time.sleep(3)
     
     
@@ -60,12 +63,6 @@ def checkGpage(user):
         print("TOS page not found")
     time.sleep(2)
 
-def acc_exc(user):
-    if Text("locked").exists:
-        logging.ERROR(f'user {user} reported as locked')
-    if Text("Couldn't find").exists:
-        logging.ERROR(f'user {user} NOT FOUND in Google')
-        
 def microsoft(user, password):
     write(user + "@district65.net",into='sign in')
     press(RETURN)
@@ -73,13 +70,13 @@ def microsoft(user, password):
     write(password)
     press(RETURN)
     time.sleep(1)
+    checkGpage(user)
     if Text("Stay signed in").exists():
         click("No")
 
 ## counters
 counter=0
 nCounter=0
-## 
 
 
 def main():

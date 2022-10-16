@@ -9,6 +9,7 @@ import logging
 from selenium.webdriver import FirefoxOptions
 
 
+
 ## logging
 
 logging.basicConfig(filename="auto-login.txt", filemode='w', format='%(asctime)s - %(message)s', level=logging.INFO)
@@ -39,6 +40,10 @@ def google(user):
     go_to('accounts.google.com')
     write(user + "@district65.net")
     press(RETURN)
+    if Text("locked").exists:
+        logging.ERROR(f'user {user} reported as locked')
+    if Text("Couldn't find").exists:
+        logging.ERROR(f'user {user} NOT FOUND in Google')
     
     time.sleep(3)
     
@@ -53,12 +58,7 @@ def checkGpage(user):
         print("TOS page not found")
     time.sleep(2)
 
-def acc_exc(user):
-    if Text("locked").exists:
-        logging.ERROR(f'user {user} reported as locked')
-    if Text("Couldn't find").exists:
-        logging.ERROR(f'user {user} NOT FOUND in Google')
-        
+  
 def microsoft(user, password):
     write(user + "@district65.net",into='sign in')
     press(RETURN)
@@ -66,6 +66,7 @@ def microsoft(user, password):
     write(password)
     press(RETURN)
     time.sleep(1)
+    checkGpage(user)
     if Text("Stay signed in").exists():
         click("No")
 
@@ -94,7 +95,6 @@ def main():
                 acc_exc(studID)
                 microsoft(studID, pin)
                 # pdb.set_trace()
-                checkGpage(studID)
                 counter=+1
                 print(f'Last student submitted: {studID} out of {counter} and {nCounter} new logins in this session.')
                 kill_browser()
