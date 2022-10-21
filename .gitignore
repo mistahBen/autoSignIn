@@ -14,3 +14,5 @@ allstudents.csv
 auto-login.txt
 z_allstudents.csv
 fane.csv
+.env
+batch_signin.log
