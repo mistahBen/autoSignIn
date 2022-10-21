@@ -72,17 +72,7 @@ def google(user):
     if Text("Couldn't find").exists:
         logging.ERROR(f'user {user} NOT FOUND in Google')
     time.sleep(3)
-    
-    
-def checkGpage(user):
-    try:
-        click('I understand')
-        logging.info(f"{user} accepted TOS")
-        nCounter=+1
-        return nCounter
-    except:
-        print("TOS page not found")
-    time.sleep(2)
+
 
 def microsoft(user, password):
     write(user + "@district65.net",into='sign in')
