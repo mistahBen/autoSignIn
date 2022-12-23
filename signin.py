@@ -2,30 +2,16 @@ import time
 # import getopt
 # import sys
 # import re
+import argparse
 from os.path import exists
 import os
 import csv
 from selenium.webdriver import FirefoxOptions
 from helium import *
-<<<<<<< Updated upstream
 from selenium.common.exceptions import NoSuchElementException as exElem
 from env import SITE, domain
-=======
-# from selenium.common.exceptions import NoSuchElementException as exElem
-from lib import config, elements
 import logging
 
-### Logging settings
-
-def log_level(level="INFO"):
-    level = getattr(logging, level.upper())
-    if not isinstance(level, int):
-        raise ValueError('Invalid log level: %s' % level)
-    return level
-
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', 
-                    filename='batch_signin.log', encoding='utf-8', filemode='w', level=log_level())
->>>>>>> Stashed changes
 
 """
 Student batch sign-in
@@ -39,19 +25,28 @@ xattr -d com.apple.quarantine {path/to/driver}/geckodriver
 Refer to the readme for further details.
 
 """
-
+# default student_csv_name = "students.csv"
+student_csv_name = "students.csv"
 
 __location__ = os.path.realpath(os.path.join(
     os.getcwd(), os.path.dirname(__file__)))
-LIST = os.path.join(__location__, "allstudents.csv")
-if exists(LIST) is False:  # allow manual input
-    logging.warning("student list not found.")
-    print("students.csv file not found. You may manually input a student username and password or quit this script(ctrl+D), add a students.csv file and run it again.\n")
-    s = input("Student Number: ")
-    p = input("Password: ")
-    with open(LIST, 'w') as f:
-        f.write("Student_Number,Lunch_ID\n"+s+","+p)
-        logging.info('list %s created.', LIST)
+LIST =  os.path.join(__location__, student_csv_name )
+
+# def_LIST = os.path.join(__location__, student_csv_name )
+
+# arguments= argparse.ArgumentParser('')
+
+# arguments.add_argument('-f', '--file', dest=LIST, default=def_LIST)
+
+
+# if exists(LIST) is False:  # allow manual input
+#     logging.warning("student list not found.")
+#     print("students.csv file not found. You may manually input a student username and password or quit this script(ctrl+D), add a students.csv file and run it again.\n")
+#     s = input("Student Number: ")
+#     p = input("Password: ")
+#     with open(LIST, 'w') as f:
+#         f.write("Student_Number,Lunch_ID\n"+s+","+p)
+#         logging.info('list %s created.', LIST)
 
 
 ## Helium webdriver options
@@ -65,10 +60,16 @@ def google(user):
     go_to('accounts.google.com')
     write(user + "@district65.net")
     press(RETURN)
-    if Text("locked").exists:
-        logging.ERROR(f'user {user} reported as locked')
-    if Text("Couldn't find").exists:
-        logging.ERROR(f'user {user} NOT FOUND in Google')
+    try:
+        Text("locked").exists
+        logging.ERROR(f'user {str(user)} reported as locked')
+    except:
+        pass
+    try:
+        Text("Couldn't find").exists
+        logging.ERROR(f'user {str(user)} NOT FOUND in Google')
+    except:
+        pass
     time.sleep(3)
     
     
@@ -79,21 +80,6 @@ def checkGpage(user):
     except:
         print("TOS page not found")
 
-<<<<<<< Updated upstream
-=======
-def acc_exc(user):
-    try:
-        Text("locked").exists
-        logging.ERROR(f'user {user} reported as locked')
-    except:
-        pass
-    try:
-        Text("Couldn't find").exists
-        logging.ERROR(f'user {user} NOT FOUND in Google')
-    except:
-        pass
-    
->>>>>>> Stashed changes
 def microsoft(user, password):
     write(user + "@district65.net",into='sign in')
     press(RETURN)
@@ -101,23 +87,10 @@ def microsoft(user, password):
     write(password)
     press(RETURN)
     time.sleep(1)
-<<<<<<< Updated upstream
     checkGpage(user)
     if Text("Stay signed in").exists():
         click("No")
 
-## counters
-counter=0
-nCounter=0
-
-=======
-    try: 
-        Text("Stay signed in").exists()
-        click("No")
-        logging.info('%s signed in', user)
-    except:
-        pass
->>>>>>> Stashed changes
 
 def main():
     
@@ -125,7 +98,7 @@ def main():
         reader = csv.reader(f)
         next(reader, None)
         for item, row in enumerate(reader,start=1):
-            studID, pin = (row[2], row[3])
+            studID, pin = (row[0], row[1])
             if pin is str("0"):
                 print(studID+" has no corresponding Lunch ID. Skipping...")
                 kill_browser()
