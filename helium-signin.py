@@ -5,9 +5,8 @@ import os
 import time
 import csv
 from helium import *
-import logging
 from selenium.webdriver import FirefoxOptions
-
+import logging
 
 
 ## logging

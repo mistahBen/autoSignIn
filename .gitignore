@@ -16,3 +16,5 @@ z_allstudents.csv
 fane.csv
 .env
 batch_signin.log
+*.pyc
+cResponse.txt
