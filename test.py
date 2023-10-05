@@ -30,7 +30,6 @@ try:
     page.get_by_role("button", name="No").click()
 except:
     page.pause()
-page.close()
 
 
 
